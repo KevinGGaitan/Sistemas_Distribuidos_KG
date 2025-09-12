@@ -1,36 +1,32 @@
-# /**********************
-#      Pontificia Universidad Javeriana
-#     author:Juan Bello, Kevin Garay, Arley Bernal
-#     Fecha: 12 de Septiembre 2025
-#     Materia: Sistemas Distribuidos
-#**********************/
-# Compilador Java
-# Nombre del paquete y carpetas
-SRC_DIR = src
-BIN_DIR = bin
-PKG = threadsJarroba
+# ********
+# Pontificia Universidad Javeriana
+# author: Juan Bello, Kevin Garay, Arley Bernal
+# Fecha: 12 de Septiembre 2025
+# Materia: Sistemas Distribuidos
+# ********
 
-# Archivos fuente y clases
-SOURCES = $(wildcard $(SRC_DIR)/$(PKG)/*.java)
-CLASSES = $(SOURCES:$(SRC_DIR)/%.java=$(BIN_DIR)/%.class)
+# Nombre del paquete y carpeta
+SRC_DIR = src/threadsJarroba
+PKG = threadsJarroba
+BIN_DIR = bin
+# Archivos fuente (todos los .java del paquete)
+SOURCES = $(wildcard *.java)
 
 # Compilador
 JAVAC = javac
 JAVA = java
 
-# Regla por defecto: compilar todo
-all: $(CLASSES)
 
-# Compilar clases
-$(BIN_DIR)/%.class: $(SRC_DIR)/%.java
+# Compilar todos los .java en la carpeta bin/
+all:
 	@mkdir -p $(BIN_DIR)
-	$(JAVAC) -d $(BIN_DIR) $<
+	$(JAVAC) -d $(BIN_DIR) $(SOURCES)
 
-# Ejecutar versión secuencial (Cajera + Main)
+# Ejecutar versión secuencial
 secuencial: all
 	$(JAVA) -cp $(BIN_DIR) $(PKG).Main
 
-# Ejecutar versión con hilos que extiende Thread
+# Ejecutar versión con hilos
 threads: all
 	$(JAVA) -cp $(BIN_DIR) $(PKG).MainThread
 
@@ -38,8 +34,7 @@ threads: all
 runnable: all
 	$(JAVA) -cp $(BIN_DIR) $(PKG).MainRunnable
 
-
-# Ejecutar todas las versiones en orden
+# Ejecutar todas las versiones
 demo: all
 	@echo ">>> Ejecutando versión secuencial"
 	$(JAVA) -cp $(BIN_DIR) $(PKG).Main
@@ -50,8 +45,6 @@ demo: all
 	@echo ">>> Ejecutando versión con Runnable"
 	$(JAVA) -cp $(BIN_DIR) $(PKG).MainRunnable
 
-
-# Limpiar clases compiladas
+# Limpiar
 clean:
-	rm -rf $(BIN_DIR)/*
-.PHONY: all clean secuencial threads runnable
+	rm -rf $(BIN_DIR)
