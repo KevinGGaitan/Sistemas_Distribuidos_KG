@@ -26,7 +26,7 @@ public class sockettcpcli {
 
       // Conexion con el servidor especificado, direccion ip por argumento y puerto 6001
       try {
-         System.out.print("Capturando dirección de host... ");
+         System.out.print("Capturando direccion de host... ");
          address=InetAddress.getByName(argv[0]);
          System.out.println("ok");
 

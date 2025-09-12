@@ -32,7 +32,7 @@ public class socketudpcli {
          socket = new DatagramSocket();
          System.out.println("ok");
 
-         System.out.print("Capturando dirección de host... ");
+         System.out.print("Capturando direccion de host... ");
          address=InetAddress.getByName(argv[0]);
          System.out.println("ok");
 
