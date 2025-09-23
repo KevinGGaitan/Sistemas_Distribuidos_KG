@@ -1,0 +1,4 @@
+# isbn,title,author,copies
+1500,La Odisea,Homero,3
+4100,Cien años de soledad,Gabriel Garcia Marquez,2
+2600,The Road,Cormac McCarthy,1
