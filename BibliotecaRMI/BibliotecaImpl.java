@@ -25,20 +25,9 @@ public class BibliotecaImpl extends UnicastRemoteObject implements Biblioteca {
     private final int DIAS_PRESTAMO = 14;
     private final int RENOVACION_MAX = 2;
 
-    // Publicar el objeto con el nombre especificado
-    public BibliotecaImpl(String nombre) throws RemoteException {
+     // Constructor simple, sin rebind
+    public BibliotecaImpl() throws RemoteException {
         super();
-        try {
-            // Obtener la IP de la máquina donde corre el servidor
-            String ip = InetAddress.getLocalHost().getHostAddress();
-            String url = "rmi://" + ip + ":1099/" + nombre;
-
-            System.out.println("Rebind objeto en: " + url);
-            Naming.rebind(url, this);
-        } catch (Exception e) {
-            System.out.println("Exception: " + e.getMessage());
-            e.printStackTrace();
-        }
     }
 
     // Cargar inventario de archivo txt pasadp como argumento. formato:

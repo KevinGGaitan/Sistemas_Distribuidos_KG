@@ -4,10 +4,11 @@
 #     Fecha: 22 de Septiembre 2025
 #     Materia: Sistemas Distribuidos
 #**************************************************************/
+
+import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 
-// Servidor para la biblioteca
 public class BibliotecaServer {
     public static void main(String[] args) {
         if (args.length < 1) {
@@ -16,7 +17,7 @@ public class BibliotecaServer {
         }
         String invPath = args[0];
         try {
-            // Levantar RMI Registry embebido en el puerto 1099
+            // Levantar RMI Registry en puerto 1099
             try {
                 LocateRegistry.createRegistry(1099);
                 System.out.println("RMI Registry levantado en puerto 1099");
@@ -24,12 +25,18 @@ public class BibliotecaServer {
                 System.out.println("RMI Registry ya estaba corriendo");
             }
 
-            // Crear instancia del sistema de administracion de la biblioteca
-            BibliotecaImpl impl = new BibliotecaImpl("MiBiblioteca");
-            impl.cargarInventario(invPath);                 // Cargar inventario de libros
+            // Crear objeto remoto
+            BibliotecaImpl impl = new BibliotecaImpl();
+            impl.cargarInventario(invPath);
+
+            // Publicar objeto en el Registry con la IP correcta
+            String ip = "10.43.102.7";  // aquí pon la IP del servidor que usan los clientes
+            Naming.rebind("rmi://" + ip + ":1099/MiBiblioteca", impl);
+
             System.out.println("Servidor de biblioteca listo.");
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 }
+
