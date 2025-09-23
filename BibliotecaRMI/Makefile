@@ -9,7 +9,7 @@
 JAVAC = javac
 
 # Opciones de compilación
-IPSERVER = localhost
+IPSERVER = 10.43.102.7
 INVENTARIO = inventario.txt
 
 # Compilar todos los archivos
