@@ -1,3 +1,4 @@
+
 /**************************************************************
 #                         Pontificia Universidad Javeriana
 #     Autor: Juan Bello, Kevin Garay, Arley Bernal
@@ -9,7 +10,6 @@ import java.rmi.Naming;
 import java.util.List;
 import java.util.Scanner;
 
-
 public class Cliente {
     public static void main(String[] args) {
         if (args.length < 1) {
@@ -19,7 +19,8 @@ public class Cliente {
         try {
             System.out.println("Buscando Objeto ");
             // Buscar el objeto remoto, la dirección del servidor se pasa como argumento
-            Biblioteca biblioteca = (Biblioteca) Naming.lookup("rmi://10.43.102.7:1099/MiBiblioteca");
+            String ip = args[0]; // aquí llega la IP desde el make
+            Biblioteca biblioteca = (Biblioteca) Naming.lookup("rmi://" + ip + ":1099/MiBiblioteca");
 
             Scanner sc = new Scanner(System.in);
             System.out.println("=========== COMANDOS ===========");
@@ -36,7 +37,7 @@ public class Cliente {
             while (true) {
                 System.out.print("> ");
                 String line = sc.nextLine().trim();
-                if (line.equalsIgnoreCase("salir")) 
+                if (line.equalsIgnoreCase("salir"))
                     break;
                 if (line.equalsIgnoreCase("lista")) {
                     // Invocar método remoto para listar inventario
@@ -46,7 +47,7 @@ public class Cliente {
                 }
                 String[] partes = line.split("\\s+");
 
-                if (partes[0].equalsIgnoreCase("consulta")){
+                if (partes[0].equalsIgnoreCase("consulta")) {
                     if (partes.length < 2) {
                         System.out.println("Comando invalido.");
                         continue;
@@ -68,37 +69,38 @@ public class Cliente {
                 String usuario = partes[2];
                 try {
                     switch (comando.toLowerCase()) {
-                    case "prestamo":
-                        if (esISBN(isbn)){
-                        // Invocar método remoto de prestamo con isbn
-                        Transaccion r1 = biblioteca.prestamo(isbn, usuario);
-                        System.out.println(r1.mensaje);
-                        } else {
-                            // El título puede tener espacios entonces hay que reconstruirlo
-                            StringBuilder sb = new StringBuilder();
-                            for (int i = 1; i < partes.length - 1; i++) {
-                                if (i > 1) sb.append(" ");
-                                sb.append(partes[i]);
+                        case "prestamo":
+                            if (esISBN(isbn)) {
+                                // Invocar método remoto de prestamo con isbn
+                                Transaccion r1 = biblioteca.prestamo(isbn, usuario);
+                                System.out.println(r1.mensaje);
+                            } else {
+                                // El título puede tener espacios entonces hay que reconstruirlo
+                                StringBuilder sb = new StringBuilder();
+                                for (int i = 1; i < partes.length - 1; i++) {
+                                    if (i > 1)
+                                        sb.append(" ");
+                                    sb.append(partes[i]);
+                                }
+                                String titulo = sb.toString();
+                                usuario = partes[partes.length - 1];
+                                // Invocar método remoto de prestamo con titulo
+                                Transaccion r1 = biblioteca.prestamoNombre(titulo, usuario);
+                                System.out.println(r1.mensaje);
                             }
-                            String titulo = sb.toString();
-                            usuario = partes[partes.length - 1];
-                            // Invocar método remoto de prestamo con titulo
-                            Transaccion r1 = biblioteca.prestamoNombre(titulo, usuario);
-                            System.out.println(r1.mensaje);
-                        }
-                        break;
-                    case "renovacion":
-                        // Invocar método remoto de renovacion
-                        Transaccion r2 = biblioteca.renovacion(isbn, usuario);
-                        System.out.println(r2.mensaje);
-                        break;
-                    case "devolucion":
-                        // Invocar método remoto devolucion
-                        Transaccion r3 = biblioteca.devolucion(isbn, usuario);
-                        System.out.println(r3.mensaje);
-                        break;
-                    default:
-                        System.out.println("Comando desconocido.");
+                            break;
+                        case "renovacion":
+                            // Invocar método remoto de renovacion
+                            Transaccion r2 = biblioteca.renovacion(isbn, usuario);
+                            System.out.println(r2.mensaje);
+                            break;
+                        case "devolucion":
+                            // Invocar método remoto devolucion
+                            Transaccion r3 = biblioteca.devolucion(isbn, usuario);
+                            System.out.println(r3.mensaje);
+                            break;
+                        default:
+                            System.out.println("Comando desconocido.");
                     }
                 } catch (Exception ex) {
                     System.err.println("Error llamando al servidor: " + ex.getMessage());
@@ -113,14 +115,14 @@ public class Cliente {
     }
 
     public static boolean esISBN(String str) {
-    if (str == null) {
-        return false;
+        if (str == null) {
+            return false;
+        }
+        try {
+            Integer.parseInt(str); // Intenta convertir a entero
+            return true;
+        } catch (NumberFormatException e) {
+            return false; // No es un entero válido
+        }
     }
-    try {
-        Integer.parseInt(str);              // Intenta convertir a entero
-        return true;
-    } catch (NumberFormatException e) {
-        return false;                       // No es un entero válido
-    }
-}
 }

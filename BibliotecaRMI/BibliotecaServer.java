@@ -11,11 +11,14 @@ import java.rmi.registry.LocateRegistry;
 
 public class BibliotecaServer {
     public static void main(String[] args) {
-        if (args.length < 1) {
-            System.err.println("Uso: java BibliotecaServer <archivo-inventario.txt>");
+        if (args.length < 2) {
+            System.err.println("Uso: java BibliotecaServer <ip-servidor> <archivo-inventario.txt>");
             System.exit(1);
         }
-        String invPath = args[0];
+
+        String ip = args[0];
+        String invPath = args[1];
+
         try {
             // Levantar RMI Registry en puerto 1099
             try {
@@ -29,14 +32,13 @@ public class BibliotecaServer {
             BibliotecaImpl impl = new BibliotecaImpl();
             impl.cargarInventario(invPath);
 
-            // Publicar objeto en el Registry con la IP correcta
-            String ip = "10.43.102.7";  // aquí pon la IP del servidor que usan los clientes
-            Naming.rebind("rmi://" + ip + ":1099/MiBiblioteca", impl);
+            // Publicar objeto en el Registry con la IP pasada por parámetro
+            String url = "rmi://" + ip + ":1099/MiBiblioteca";
+            Naming.rebind(url, impl);
 
-            System.out.println("Servidor de biblioteca listo.");
+            System.out.println("Servidor de biblioteca listo en " + url);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 }
-
