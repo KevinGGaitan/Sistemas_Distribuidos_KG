@@ -19,7 +19,8 @@ public class Cliente {
         try {
             System.out.println("Buscando Objeto ");
             // Buscar el objeto remoto, la dirección del servidor se pasa como argumento
-            Biblioteca biblioteca = (Biblioteca) Naming.lookup("rmi://" + args[0] + "/MiBiblioteca");
+            Biblioteca biblioteca = (Biblioteca) Naming.lookup("rmi://10.43.102.7:1099/MiBiblioteca");
+
             Scanner sc = new Scanner(System.in);
             System.out.println("=========== COMANDOS ===========");
             System.out.println("| lista                        |");

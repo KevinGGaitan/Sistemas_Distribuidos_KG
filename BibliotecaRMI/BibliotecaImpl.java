@@ -1,3 +1,4 @@
+
 /**************************************************************
 #                         Pontificia Universidad Javeriana
 #     Autor: Juan Bello, Kevin Garay, Arley Bernal
@@ -13,12 +14,12 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.nio.file.*;
 import java.io.IOException;
+import java.net.InetAddress;
 
 // Implementación de la interfaz Biblioteca
 public class BibliotecaImpl extends UnicastRemoteObject implements Biblioteca {
     private final Map<String, Libro> inventario = new ConcurrentHashMap<>();
     private final Map<String, Map<String, InfoDevolucion>> prestamos = new ConcurrentHashMap<>();
-
 
     // Duracion de los prestamos y cantidad maxima de renovaciones (configurable)
     private final int DIAS_PRESTAMO = 14;
@@ -28,23 +29,27 @@ public class BibliotecaImpl extends UnicastRemoteObject implements Biblioteca {
     public BibliotecaImpl(String nombre) throws RemoteException {
         super();
         try {
-            System.out.println("Rebind objeto " + nombre);
-            Naming.rebind(nombre, this);
+            // Obtener la IP de la máquina donde corre el servidor
+            String ip = InetAddress.getLocalHost().getHostAddress();
+            String url = "rmi://" + ip + ":1099/" + nombre;
+
+            System.out.println("Rebind objeto en: " + url);
+            Naming.rebind(url, this);
         } catch (Exception e) {
             System.out.println("Exception: " + e.getMessage());
             e.printStackTrace();
         }
     }
 
-
-    // Cargar inventario de archivo txt pasadp como argumento. formato: isbn,titulo,autor,copias
+    // Cargar inventario de archivo txt pasadp como argumento. formato:
+    // isbn,titulo,autor,copias
     public void cargarInventario(String path) throws IOException {
         List<String> lineas = Files.readAllLines(Paths.get(path));
         for (String linea : lineas) {
-            if (linea.trim().isEmpty() || linea.startsWith("#")) 
+            if (linea.trim().isEmpty() || linea.startsWith("#"))
                 continue;
             String[] parts = linea.split(",", 4);
-            if (parts.length < 4) 
+            if (parts.length < 4)
                 continue;
             String isbn = parts[0].trim();
             String titulo = parts[1].trim();
@@ -55,11 +60,10 @@ public class BibliotecaImpl extends UnicastRemoteObject implements Biblioteca {
         System.out.println("inventario cargado. libros: " + inventario.size());
     }
 
-
     @Override
     public Transaccion prestamo(String isbn, String usuario) throws RemoteException {
         Libro libro = inventario.get(isbn);
-        if (libro == null) 
+        if (libro == null)
             return new Transaccion(false, "ISBN no encontrado: " + isbn);
 
         // Obtener o crear mapa de prestamos por ISBN
@@ -67,7 +71,8 @@ public class BibliotecaImpl extends UnicastRemoteObject implements Biblioteca {
         Map<String, InfoDevolucion> map = prestamos.get(isbn);
 
         // Prestamo de un libro
-        synchronized (libro) {                                  // Manejo de hilos, blockeo para limitar las operaciones de Libros a un solo hilo
+        synchronized (libro) { // Manejo de hilos, blockeo para limitar las operaciones de Libros a un solo
+                               // hilo
             if (map.containsKey(usuario)) {
                 return new Transaccion(false, "Usuario ya tiene prestado este libro (ISBN: " + isbn + ")");
             }
@@ -77,7 +82,8 @@ public class BibliotecaImpl extends UnicastRemoteObject implements Biblioteca {
             LocalDate fechaLim = LocalDate.now().plusDays(DIAS_PRESTAMO);
             InfoDevolucion info = new InfoDevolucion(usuario, fechaLim);
             map.put(usuario, info);
-            String mensaje = String.format("Prestamo exitoso. ISBN: %s, usuario: %s, vence: %s", isbn, usuario, fechaLim);
+            String mensaje = String.format("Prestamo exitoso. ISBN: %s, usuario: %s, vence: %s", isbn, usuario,
+                    fechaLim);
             return new Transaccion(true, mensaje, fechaLim);
         }
     }
@@ -85,8 +91,8 @@ public class BibliotecaImpl extends UnicastRemoteObject implements Biblioteca {
     @Override
     public Transaccion prestamoNombre(String titulo, String usuario) throws RemoteException {
         // Buscar libro con titulo que coincida
-        for (Libro libro : inventario.values()){
-            if (libro.titulo.equalsIgnoreCase(titulo)){
+        for (Libro libro : inventario.values()) {
+            if (libro.titulo.equalsIgnoreCase(titulo)) {
                 // Reutilizamos logica de prestamo por ISBN
                 return prestamo(libro.isbn, usuario);
             }
@@ -94,17 +100,18 @@ public class BibliotecaImpl extends UnicastRemoteObject implements Biblioteca {
         return new Transaccion(false, "No se encontro libro con titulo: " + titulo);
     }
 
-
     @Override
     public Transaccion renovacion(String isbn, String usuario) throws RemoteException {
         Libro libro = inventario.get(isbn);
-        if (libro == null) return new Transaccion(false, "ISBN no encontrado: " + isbn);
-            Map<String, InfoDevolucion> map = prestamos.get(isbn);
+        if (libro == null)
+            return new Transaccion(false, "ISBN no encontrado: " + isbn);
+        Map<String, InfoDevolucion> map = prestamos.get(isbn);
         if (map == null || !map.containsKey(usuario))
             return new Transaccion(false, "No existe prestamo para ese usuario/ISBN");
 
         // Renovacion de un libro
-        synchronized (libro) {                                  // Manejo de hilos, blockeo para limitar las operaciones de Libros a un solo hilo
+        synchronized (libro) { // Manejo de hilos, blockeo para limitar las operaciones de Libros a un solo
+                               // hilo
             InfoDevolucion info = map.get(usuario);
             if (info.contDevol >= RENOVACION_MAX) {
                 return new Transaccion(false, "Limite de renovaciones alcanzado para ISBN: " + isbn);
@@ -112,7 +119,9 @@ public class BibliotecaImpl extends UnicastRemoteObject implements Biblioteca {
             // Renovacion simple: extender la fecha limite a por DIAS_PRESTAMO
             info.fechaLim = info.fechaLim.plusDays(DIAS_PRESTAMO);
             info.contDevol++;
-            String mensaje = String.format("Renovacion exitosa. ISBN: %s, usuario: %s, nuevo vencimiento: %s, renovaciones: %d", isbn, usuario, info.fechaLim, info.contDevol);
+            String mensaje = String.format(
+                    "Renovacion exitosa. ISBN: %s, usuario: %s, nuevo vencimiento: %s, renovaciones: %d", isbn, usuario,
+                    info.fechaLim, info.contDevol);
             return new Transaccion(true, mensaje, info.fechaLim);
         }
     }
@@ -120,22 +129,25 @@ public class BibliotecaImpl extends UnicastRemoteObject implements Biblioteca {
     @Override
     public Transaccion devolucion(String isbn, String usuario) throws RemoteException {
         Libro libro = inventario.get(isbn);
-        if (libro == null) return new Transaccion(false, "ISBN no encontrado: " + isbn);
-            Map<String, InfoDevolucion> map = prestamos.get(isbn);
+        if (libro == null)
+            return new Transaccion(false, "ISBN no encontrado: " + isbn);
+        Map<String, InfoDevolucion> map = prestamos.get(isbn);
         if (map == null || !map.containsKey(usuario))
             return new Transaccion(false, "No existe prestamo para ese usuario/ISBN");
 
         // Devolucion de un libro prestado
-        synchronized (libro) {                                  // Manejo de hilos, blockeo para limitar las operaciones de Libros a un solo hilo
+        synchronized (libro) { // Manejo de hilos, blockeo para limitar las operaciones de Libros a un solo
+                               // hilo
             map.remove(usuario);
             libro.devolver();
-            String mensaje = String.format("Devolucion exitosa. ISBN: %s, usuario: %s. Copias disponibles: %d", isbn, usuario, libro.getCopiasDisp());
+            String mensaje = String.format("Devolucion exitosa. ISBN: %s, usuario: %s. Copias disponibles: %d", isbn,
+                    usuario, libro.getCopiasDisp());
             return new Transaccion(true, mensaje, null);
         }
     }
 
     @Override
-    public Libro consulta(String isbn) throws RemoteException{
+    public Libro consulta(String isbn) throws RemoteException {
         Libro libro = inventario.get(isbn);
         return libro;
     }
