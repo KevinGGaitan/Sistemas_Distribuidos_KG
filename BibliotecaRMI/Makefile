@@ -19,7 +19,7 @@ all:
 
 # Ejecutar el servidor SumadorServer
 run-server: 
-	java -classpath . -Djava.security.policy=./policy BibliotecaServer $(INVENTARIO)
+	@java -classpath . -Djava.security.policy=./policy BibliotecaServer $(INVENTARIO) 2>/dev/null
 
 # Ejecutar el cliente SumadorClient (con localhost como servidor por defecto)
 run-client:
