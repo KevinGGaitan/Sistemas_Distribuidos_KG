@@ -1,0 +1,34 @@
+[
+  {
+    "isbn": "0001",
+    "titulo": "El Principito",
+    "copiasDisponibles": 3,
+    "prestadoA": [],
+    "renovaciones": {},
+    "fechaLim": {}
+  },
+  {
+    "isbn": "0002",
+    "titulo": "Cien Años de Soledad",
+    "copiasDisponibles": 2,
+    "prestadoA": [],
+    "renovaciones": {},
+    "fechaLim": {}
+  },
+  {
+    "isbn": "0003",
+    "titulo": "1984",
+    "copiasDisponibles": 1,
+    "prestadoA": ["USUARIO5"],
+    "renovaciones": {"USUARIO5": 2},
+    "fechaLim": {"USUARIO5": "2025-10-10"}
+  },
+  {
+    "isbn": "0004",
+    "titulo": "La Odisea",
+    "copiasDisponibles": 0,
+    "prestadoA": ["USUARIO7", "USUARIO8"],
+    "renovaciones": {"USUARIO7": 1, "USUARIO8": 0},
+    "fechaLim": {"USUARIO7": "2025-10-12", "USUARIO8": "2025-10-15"}
+  }
+]
