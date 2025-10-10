@@ -1,0 +1,11 @@
+sd/library/ProcesoSolicitante.class
+sd/library/ActorPrestamo.class
+sd/library/GestorCarga.class
+sd/library/model/Request$Tipo.class
+sd/library/model/Libro.class
+sd/library/model/Request.class
+sd/library/GestorAlmacenamiento.class
+sd/library/ActorSuscriptor.class
+sd/library/PruebasbRend/PSRend.class
+sd/library/PruebasbRend/AnalizadorConteo.class
+sd/library/PruebasbRend/AnalizadorTiempos.class

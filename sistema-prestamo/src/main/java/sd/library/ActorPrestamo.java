@@ -22,7 +22,7 @@ import java.time.LocalDate;
  * Uso: java ActorPrestamo <gcHost> <gcPubPort> <gaHost> <gaPort>
  */
 public class ActorPrestamo {
-    private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
+   private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
     public static void main(String[] args) {
         if (args.length < 6) {
