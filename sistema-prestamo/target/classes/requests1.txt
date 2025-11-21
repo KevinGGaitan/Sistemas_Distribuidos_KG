@@ -1,0 +1,25 @@
+# Formato por línea: Tipo, ISBN, Usuario
+# TIPO = PRESTAMO | DEVOLUCION | RENOVACION
+
+#Éxito
+PRESTAMO,0001,USUARIO1     
+#Éxito
+PRESTAMO,0001,USUARIO2
+#Éxito (quedan 0 copias)          
+PRESTAMO,0001,USUARIO3
+#Error: ya tiene el libro          
+PRESTAMO,0001,USUARIO1
+#Error: sin copias disponibles          
+PRESTAMO,0004,USUARIO9 
+         
+#Error: máximo de renovaciones alcanzado
+RENOVACION,0003,USUARIO5        
+#Éxito
+RENOVACION,0001,USUARIO2        
+#Error: no tiene el libro
+RENOVACION,0002,USUARIO4        
+
+#Éxito
+DEVOLUCION,0001,USUARIO3        
+#Error: no tiene el libro
+DEVOLUCION,0002,USUARIO4        
