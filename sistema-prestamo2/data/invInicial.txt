@@ -1,0 +1,22 @@
+[
+  { "isbn": "0001", "titulo": "El Principito", "copiasDisponibles": 3, "prestadoA": [], "renovaciones": {}, "fechaLim": {} },
+  { "isbn": "0002", "titulo": "Cien Años de Soledad", "copiasDisponibles": 2, "prestadoA": [], "renovaciones": {}, "fechaLim": {} },
+  { "isbn": "0003", "titulo": "1984", "copiasDisponibles": 1, "prestadoA": ["USUARIO5"], "renovaciones": {"USUARIO5": 2}, "fechaLim": {"USUARIO5": "2025-10-10"} },
+  { "isbn": "0004", "titulo": "La Odisea", "copiasDisponibles": 0, "prestadoA": ["USUARIO7","USUARIO8"], "renovaciones": {"USUARIO7": 1,"USUARIO8": 0}, "fechaLim": {"USUARIO7": "2025-10-12","USUARIO8": "2025-10-15"} },
+  { "isbn": "0005", "titulo": "Don Quijote de la Mancha", "copiasDisponibles": 4, "prestadoA": ["USUARIO2"], "renovaciones": {"USUARIO2": 1}, "fechaLim": {"USUARIO2": "2025-10-17"} },
+  { "isbn": "0006", "titulo": "Fahrenheit 451", "copiasDisponibles": 2, "prestadoA": [], "renovaciones": {}, "fechaLim": {} },
+  { "isbn": "0007", "titulo": "Crimen y Castigo", "copiasDisponibles": 0, "prestadoA": ["USUARIO9"], "renovaciones": {"USUARIO9": 0}, "fechaLim": {"USUARIO9": "2025-10-16"} },
+  { "isbn": "0008", "titulo": "El Retrato de Dorian Gray", "copiasDisponibles": 5, "prestadoA": [], "renovaciones": {}, "fechaLim": {} },
+  { "isbn": "0009", "titulo": "Los Miserables", "copiasDisponibles": 3, "prestadoA": ["USUARIO3"], "renovaciones": {"USUARIO3": 1}, "fechaLim": {"USUARIO3": "2025-10-12"} },
+  { "isbn": "0010", "titulo": "La Metamorfosis", "copiasDisponibles": 1, "prestadoA": ["USUARIO4"], "renovaciones": {"USUARIO4": 0}, "fechaLim": {"USUARIO4": "2025-10-13"} },
+  { "isbn": "0011", "titulo": "Hamlet", "copiasDisponibles": 2, "prestadoA": [], "renovaciones": {}, "fechaLim": {} },
+  { "isbn": "0012", "titulo": "El Gran Gatsby", "copiasDisponibles": 3, "prestadoA": [], "renovaciones": {}, "fechaLim": {} },
+  { "isbn": "0013", "titulo": "Ulises", "copiasDisponibles": 0, "prestadoA": ["USUARIO1","USUARIO6"], "renovaciones": {"USUARIO1": 1,"USUARIO6": 0}, "fechaLim": {"USUARIO1": "2025-10-12","USUARIO6": "2025-10-16"} },
+  { "isbn": "0014", "titulo": "Madame Bovary", "copiasDisponibles": 4, "prestadoA": [], "renovaciones": {}, "fechaLim": {} },
+  { "isbn": "0015", "titulo": "La Divina Comedia", "copiasDisponibles": 5, "prestadoA": ["USUARIO8"], "renovaciones": {"USUARIO8": 0}, "fechaLim": {"USUARIO8": "2025-10-18"} },
+  { "isbn": "0016", "titulo": "Moby Dick", "copiasDisponibles": 1, "prestadoA": [], "renovaciones": {}, "fechaLim": {} },
+  { "isbn": "0017", "titulo": "Orgullo y Prejuicio", "copiasDisponibles": 2, "prestadoA": ["USUARIO2"], "renovaciones": {"USUARIO2": 1}, "fechaLim": {"USUARIO2": "2025-10-15"} },
+  { "isbn": "0018", "titulo": "Las Aventuras de Tom Sawyer", "copiasDisponibles": 3, "prestadoA": [], "renovaciones": {}, "fechaLim": {} },
+  { "isbn": "0019", "titulo": "Ana Karenina", "copiasDisponibles": 0, "prestadoA": ["USUARIO5"], "renovaciones": {"USUARIO5": 1}, "fechaLim": {"USUARIO5": "2025-10-19"} },
+  { "isbn": "0020", "titulo": "Rayuela", "copiasDisponibles": 2, "prestadoA": [], "renovaciones": {}, "fechaLim": {} }
+]
