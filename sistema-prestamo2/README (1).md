@@ -1,4 +1,4 @@
-# Sistema Distribuido de Préstamo de Libros – Universidad Ada Lovelace
+# Sistema Distribuido de Préstamo de Libros – Sistemas Distribuidos
 
 # Ejecución del Proyecto
 
